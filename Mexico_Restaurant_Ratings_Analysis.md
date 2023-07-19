@@ -8,7 +8,7 @@ select * from consumer_preferences
 ````
 ***
 
--- CHECK FOR DUPLICATES
+#### CHECK FOR DUPLICATES
 
 ````sql
 select consumer_id,count(consumer_id) as Total_consumer
