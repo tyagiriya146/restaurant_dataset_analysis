@@ -344,10 +344,10 @@ GROUP BY service_senti
 ````
 ````sql
 SELECT
-		a.overall_senti as Sentiment,
-		a.total_customers as Overall_Rating,
-		b.total_customers as food_Rating,
-		c.total_customers as service_Rating
+        a.overall_senti as Sentiment,
+        a.total_customers as Overall_Rating,
+        b.total_customers as food_Rating,
+        c.total_customers as service_Rating
 FROM overall as a
 INNER JOIN food as b
 ON a.overall_senti = b.food_senti
@@ -357,19 +357,19 @@ ON a.overall_senti = c.service_senti
 #### find a list of customers visiting local or outside restaurants 
 ````sql
 SELECT 
-				a.consumer_id as id,
-				b.city as customer_city,
-				c.name,
-				c.city as restaurant_city,
-				a.overall_senti,
-				a.food_senti,
-				a.service_senti,
-				CASE WHEN b.city = c.city THEN 'Local' ELSE 'Outside' END as Location_preference
-			FROM ratings as a
-			INNER JOIN consumers as b
-			ON a.consumer_id = b.consumer_id
-			INNER JOIN restaurants as c
-			ON a.restaurant_id = c.restaurant_id
+          a.consumer_id as id,
+          b.city as customer_city,
+          c.name,
+          c.city as restaurant_city,
+          a.overall_senti,
+          a.food_senti,
+          a.service_senti,
+CASE WHEN b.city = c.city THEN 'Local' ELSE 'Outside' END as Location_preference
+FROM ratings as a
+INNER JOIN consumers as b
+ON a.consumer_id = b.consumer_id
+INNER JOIN restaurants as c
+ON a.restaurant_id = c.restaurant_id
   ````
 #### Count of Customers Visiting Local and Outside Restaurants 
 ````sql
@@ -394,8 +394,8 @@ SELECT
             GROUP BY 	Location_preference
 ````
 #### Best restaurants for each cuisines by different ratings       
-    ````sql
-  CREATE VIEW average_analysis as (
+````sql
+CREATE VIEW average_analysis as (
 SELECT 
 		a.name,
 		ROUND(AVG(b.overall_rating),2)as overall_Rating,
@@ -412,11 +412,12 @@ ORDER BY c.cuisine
 )
 ````
 ####  Best cuisines by different ratings
+
  ````sql
 SELECT 
-		First_value(cuisine) OVER(ORDER BY overall_rating desc) as overall,
-		First_value(cuisine) OVER(ORDER BY food_rating desc) as food,
-		First_value(cuisine) OVER(ORDER BY service_rating desc) as service
+First_value(cuisine) OVER(ORDER BY overall_rating desc) as overall,
+First_value(cuisine) OVER(ORDER BY food_rating desc) as food,
+First_value(cuisine) OVER(ORDER BY service_rating desc) as service
 FROM average_analysis
 LIMIT 1	
 ````
